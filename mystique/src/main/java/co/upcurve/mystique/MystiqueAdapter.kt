@@ -12,7 +12,7 @@ import android.view.ViewGroup
 class MystiqueAdapter<T : MystiqueItemPresenter> : RecyclerView.Adapter<MystiqueViewHolder>() {
 
     /**
-     * A [MutableList] of items which implement [MystiqueItem], ready to be
+     * A [MutableList] of items which extends [MystiqueItemPresenter], ready to be
      * inflated to the RecyclerView by this adapter
      */
     val mystiqueItems: MutableList<T> = mutableListOf()
@@ -31,7 +31,7 @@ class MystiqueAdapter<T : MystiqueItemPresenter> : RecyclerView.Adapter<Mystique
 
     /**
      * The Adapter's normal onBindViewHolder function which delegates the
-     * binding to the appropriate [MystiqueItem] implementation instead of
+     * binding to the appropriate [MystiqueItemPresenter] implementation instead of
      * trying to put in any specific sort of implementation in here
      *
      * @see MystiqueItem.displayView        Views should be populated in this method
