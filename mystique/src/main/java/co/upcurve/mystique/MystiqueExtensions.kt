@@ -3,10 +3,23 @@ package co.upcurve.mystique
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlin.reflect.KClass
 
 /**
  * Extension functions for both platform API and the library API
  */
+
+/**
+ * Read the an annotation named [Presenter] if present on the given class
+ * and return it's value
+ *
+ * @param clazz The class to be read
+ * @return The value of the [Presenter] annotation, i.e., the supplied class
+ */
+private fun getPresenterClassName(clazz: KClass<*>): KClass<*>? {
+    val presenter = clazz.annotations.find { it is Presenter } as? Presenter
+    return presenter?.presenterClass
+}
 
 /**
  * An extension function to the platform's [ViewGroup] to inflate a given
@@ -71,11 +84,11 @@ fun <T : MystiqueItem> MystiqueAdapter<T>.removeItem(index: Int = mystiqueItems.
     notifyItemRemoved(index)
 }
 
-fun mystify(models: List<Any>, map: MutableMap<Any, Any>, listener: Any? = null): MutableList<MystiqueItemPresenter> {
+fun mystify(models: List<Any>, listener: Any? = null): MutableList<MystiqueItemPresenter> {
     val mystiqueItemPresenterList = mutableListOf<MystiqueItemPresenter>()
 
     models.forEach {
-        val mystiqueItemPresenter = map[it::class.java.canonicalName]!!::class.java.newInstance() as? MystiqueItemPresenter
+        val mystiqueItemPresenter = getPresenterClassName(it::class)?.java?.newInstance() as? MystiqueItemPresenter
         if (mystiqueItemPresenter != null) {
             mystiqueItemPresenter.loadModel(it)
             mystiqueItemPresenter.setListener(listener)

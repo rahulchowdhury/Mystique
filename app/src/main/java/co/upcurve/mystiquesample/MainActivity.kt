@@ -7,6 +7,7 @@ import co.upcurve.mystique.MystiqueAdapter
 import co.upcurve.mystique.MystiqueItemPresenter
 import co.upcurve.mystique.mystify
 import co.upcurve.mystiquesample.items.PostItem
+import co.upcurve.mystiquesample.models.BannerModel
 import co.upcurve.mystiquesample.models.PostModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,19 +27,17 @@ class MainActivity : AppCompatActivity(), PostItem.OnItemClickListener {
     fun setupRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val postModelList = mutableListOf<PostModel>()
+        val postModelList = mutableListOf<Any>()
         postModelList.add(PostModel(title = "Hello",
                 imageUrl = "http://www.idolator.com/wp-content/uploads/sites/10/2015/10/adele-hello.jpg"))
         postModelList.add(PostModel(title = "Uptown Funk",
                 imageUrl = "http://www.robotbutt.com/wp-content/uploads/2015/01/Uptown-Funk.jpg"))
+        postModelList.add(BannerModel("Kotlin"))
         postModelList.add(PostModel(title = "Cold Water",
                 imageUrl = "http://www.idolator.com/wp-content/uploads/sites/10/2016/07/major-lazer-cold-water-620x413.jpg"))
 
-        val modelToPresenterMap = mutableMapOf<Any, Any>()
-        modelToPresenterMap.put(PostModel::class.java.canonicalName, PostItem())
-        val itemPresenterList = mystify(postModelList, modelToPresenterMap, this)
         val mystiqueAdapter = MystiqueAdapter<MystiqueItemPresenter>()
-        mystiqueAdapter.setItems(itemPresenterList)
+        mystiqueAdapter.setItems(mystify(postModelList, this))
 
         recyclerView.adapter = mystiqueAdapter
     }
