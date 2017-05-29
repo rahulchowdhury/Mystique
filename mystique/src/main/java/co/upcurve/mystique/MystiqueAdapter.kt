@@ -7,9 +7,9 @@ import android.view.ViewGroup
  * A generic RecyclerView adapter which can inflate items of different layouts
  * in the same RecyclerView without much effort
  *
- * @param T An item class which implements [MystiqueItem]
+ * @param T An item class which extends [MystiqueItemPresenter]
  */
-class MystiqueAdapter<T : MystiqueItem> : RecyclerView.Adapter<MystiqueViewHolder>() {
+class MystiqueAdapter<T : MystiqueItemPresenter> : RecyclerView.Adapter<MystiqueViewHolder>() {
 
     /**
      * A [MutableList] of items which implement [MystiqueItem], ready to be

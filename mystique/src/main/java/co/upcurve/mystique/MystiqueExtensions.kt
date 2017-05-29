@@ -39,7 +39,7 @@ fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
  *
  * @param items A list of [T] items to be added
  */
-fun <T : MystiqueItem> MystiqueAdapter<T>.addItems(items: List<T>) {
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItems(items: List<T>) {
     items.isNotEmpty().let {
         mystiqueItems.addAll(items)
         notifyDataSetChanged()
@@ -52,7 +52,7 @@ fun <T : MystiqueItem> MystiqueAdapter<T>.addItems(items: List<T>) {
  *
  * @param items A list of [T] items to be removed
  */
-fun <T : MystiqueItem> MystiqueAdapter<T>.removeItems(items: List<T>) {
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<T>) {
     items.isNotEmpty().let {
         mystiqueItems.removeAll(items)
         notifyDataSetChanged()
@@ -67,7 +67,7 @@ fun <T : MystiqueItem> MystiqueAdapter<T>.removeItems(items: List<T>) {
  * @param item A [T] item to be added
  * @param index Position where the item is to be added (if required)
  */
-fun <T : MystiqueItem> MystiqueAdapter<T>.addItem(item: T, index: Int = mystiqueItems.size) {
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItem(item: T, index: Int = mystiqueItems.size) {
     mystiqueItems.add(index, item)
     notifyItemInserted(index)
 }
@@ -79,11 +79,31 @@ fun <T : MystiqueItem> MystiqueAdapter<T>.addItem(item: T, index: Int = mystique
  *
  * @param index Position from where the item is to be removed
  */
-fun <T : MystiqueItem> MystiqueAdapter<T>.removeItem(index: Int = mystiqueItems.size - 1) {
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(index: Int = mystiqueItems.size - 1) {
     mystiqueItems.removeAt(index)
     notifyItemRemoved(index)
 }
 
+/**
+ * This is where all the mystic magic happens. When used properly, can save
+ * lots of effort and time, so use it whenever you are initializing a [MystiqueAdapter]
+ * with a list of data models, so that each model gets mapped to their respective
+ * presenters or item holders, automatically
+ *
+ * Inside the hood, this function takes in a list of data models and maps
+ * to their respective presenters or item holders as specified by the
+ * annotation [Presenter] on each model class.
+ *
+ * Also, this function takes in an optional parameter to attach a click
+ * listener to the presenters for each model in the list which can be a
+ * reference to an Activity, Fragment, View, etc which handles the click
+ * for the whole row of inflated data or individual items as might be
+ * defined tailored to the purpose
+ *
+ * @param models A list of data models of [Any] type
+ * @param listener An optional listener to attach to each model
+ * @return A mutable list of [MystiqueItemPresenter] to be consumed by a [MystiqueAdapter]
+ */
 fun mystify(models: List<Any>, listener: Any? = null): MutableList<MystiqueItemPresenter> {
     val mystiqueItemPresenterList = mutableListOf<MystiqueItemPresenter>()
 
@@ -97,4 +117,19 @@ fun mystify(models: List<Any>, listener: Any? = null): MutableList<MystiqueItemP
     }
 
     return mystiqueItemPresenterList
+}
+
+/**
+ * An extension function on platform API of [List] to add the feature of
+ * converting a regular [List] or [MutableList] to a mystified list, which
+ * is nothing but a mutable list of [MystiqueItemPresenter]
+ *
+ * Use this function when initializing a [MystiqueAdapter] with a list of
+ * data models
+ *
+ * @param listener The listener (if any) to add to each item presenter in the list
+ * @return A mutable list of [MystiqueItemPresenter] objects
+ */
+fun List<Any>.toMystifiedList(listener: Any? = null): MutableList<MystiqueItemPresenter> {
+    return mystify(this, listener)
 }
