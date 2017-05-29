@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 
 /**
- * Created by rahulchowdhury on 5/29/17.
+ * Extension functions for both platform API and the library API
  */
 
 /**
@@ -69,4 +69,19 @@ fun <T : MystiqueItem> MystiqueAdapter<T>.addItem(item: T, index: Int = mystique
 fun <T : MystiqueItem> MystiqueAdapter<T>.removeItem(index: Int = mystiqueItems.size - 1) {
     mystiqueItems.removeAt(index)
     notifyItemRemoved(index)
+}
+
+fun mystify(models: List<Any>, map: MutableMap<Any, Any>, listener: Any? = null): MutableList<MystiqueItemPresenter> {
+    val mystiqueItemPresenterList = mutableListOf<MystiqueItemPresenter>()
+
+    models.forEach {
+        val mystiqueItemPresenter = map[it::class.java.canonicalName]!!::class.java.newInstance() as? MystiqueItemPresenter
+        if (mystiqueItemPresenter != null) {
+            mystiqueItemPresenter.loadModel(it)
+            mystiqueItemPresenter.setListener(listener)
+            mystiqueItemPresenterList.add(mystiqueItemPresenter)
+        }
+    }
+
+    return mystiqueItemPresenterList
 }
