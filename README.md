@@ -1,4 +1,7 @@
+[ ![Download](https://api.bintray.com/packages/rahulchowdhury/maven/mystique/images/download.svg) ](https://bintray.com/rahulchowdhury/maven/mystique/_latestVersion)
+
 <img src="https://github.com/rahulchowdhury/Mystique/blob/master/docs/Mystique.png" width="300px" />
+
 Mystique is a [Kotlin](http://kotlinlang.org/) library for Android’s `RecyclerView` which allows you to create homogeneous and heterogeneous lists effortlessly using an universal adapter. It’s `RecyclerView.Adapter` on steroids, written purely in Kotlin ( _or yeah, with extension functions too_ ).
 
 # Download
