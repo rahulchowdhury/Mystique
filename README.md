@@ -2,7 +2,7 @@
 
 <img src="https://github.com/rahulchowdhury/Mystique/blob/master/docs/Mystique.png" width="300px" />
 
-Mystique is a [Kotlin](http://kotlinlang.org/) library for Android’s `RecyclerView` which allows you to create homogeneous and heterogeneous lists effortlessly using an universal adapter. It’s `RecyclerView.Adapter` on steroids, written purely in Kotlin ( _or yeah, with extension functions too_ ).
+Mystique is a [Kotlin](http://kotlinlang.org/) library for Android’s `RecyclerView` which allows you to create homogeneous and heterogeneous lists effortlessly using an universal adapter. It’s `RecyclerView.Adapter` on steroids, written purely in Kotlin (_or yeah, with extension functions too_).
 
 # Download
 You can download this library through **jCenter** by one of the following ways,
@@ -133,7 +133,7 @@ val adapter = MystiqueAdapter<MystiqueItemPresenter>()
 adapter.setItems(newsList.toMystifiedList())
 ```
 
-Here, the extension function ( _since it’s Kotlin_ ) converts a regular `List<T>` to a `MutableList<MysticItemPresenter>` by attaching all the appropriate models to their presenters behind the scenes for you.
+Here, the extension function (_since it’s Kotlin_) converts a regular `List<T>` to a `MutableList<MystiqueItemPresenter>` by attaching all the appropriate models to their presenters behind the scenes for you.
 
 Voila! That’s all. Did you expect more?
 
@@ -158,6 +158,9 @@ Using a model,
 ### Remove a list of items
 `fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<Any>)`
 
+### Convert any object to a Mystified object
+`object.toMystifiedItem()`
+
 # Sample app
 Refer to this section in this repo for a sample app using the library,
 
@@ -171,7 +174,7 @@ I would be happy to add your contribution to the library, if it improves the lib
 # Who made Mystique?
 Well the name of the library might be Mystique, but certainly the author is not a mystery.
 
-## Rahul Chowdhury
+### Rahul Chowdhury
 
 [Blog](http://blog.rahulchowdhury.co/) | [Twitter](https://twitter.com/chowdhuryrahul) | [LinkedIn](https://www.linkedin.com/in/chowdhuryrahul/) | [Facebook](https://www.facebook.com/itsrcthegreat) | [Medium](https://medium.com/@rahulchowdhury)
 
