@@ -20,6 +20,8 @@ class BannerItem(var bannerModel: BannerModel = BannerModel()) : MystiqueItemPre
         bannerModel = model as BannerModel
     }
 
+    override fun getModel() = bannerModel
+
     override fun setListener(listener: Any?) {
 
     }

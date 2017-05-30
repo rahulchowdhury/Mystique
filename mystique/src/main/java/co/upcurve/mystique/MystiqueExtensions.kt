@@ -50,11 +50,27 @@ fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItems(items: List<T>) {
  * An extension function to [MystiqueAdapter] to remove a list of items
  * from the adapter and notifying the adapter of the same
  *
- * @param items A list of [T] items to be removed
+ * @param items A list of item models (not presenters) to be removed
  */
-fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<T>) {
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<Any>) {
     items.isNotEmpty().let {
-        mystiqueItems.removeAll(items)
+        items.forEach {
+            val itemModel = it
+            var itemToRemove: MystiqueItemPresenter? = null
+
+            mystiqueItems.forEach innerLoop@ {
+                val mystiqueItemModel = it.getModel()
+
+                if (mystiqueItemModel != null && itemModel == mystiqueItemModel) {
+                    itemToRemove = it
+                    return@innerLoop
+                }
+            }
+
+            itemToRemove?.let {
+                mystiqueItems.remove(it)
+            }
+        }
         notifyDataSetChanged()
     }
 }

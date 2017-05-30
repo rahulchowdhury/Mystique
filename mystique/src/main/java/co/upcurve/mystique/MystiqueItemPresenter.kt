@@ -16,6 +16,15 @@ abstract class MystiqueItemPresenter : MystiqueItem {
     abstract fun loadModel(model: Any)
 
     /**
+     * Returns the loaded model (if any) from the item presenter.
+     * This function is usually used in the [MystiqueAdapter.removeItems]
+     * function to perform model wise comparison while removing an element
+     *
+     * @return The loaded model (if any)
+     */
+    abstract fun getModel(): Any?
+
+    /**
      * Any click listener (if supplied) has to be stored in the
      * class extending [MystiqueItemPresenter] by implementing
      * this function

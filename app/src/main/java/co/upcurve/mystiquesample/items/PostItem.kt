@@ -24,8 +24,10 @@ class PostItem(var postModel: PostModel = PostModel(), var clickListener: OnItem
         postModel = model as PostModel
     }
 
+    override fun getModel() = postModel
+
     override fun setListener(listener: Any?) {
-        clickListener = listener as OnItemClickListener
+        clickListener = listener as? OnItemClickListener
     }
 
     override fun getLayout() = R.layout.view_item_post
