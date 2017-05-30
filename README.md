@@ -1,8 +1,8 @@
-[ ![Download](https://api.bintray.com/packages/rahulchowdhury/maven/mystique/images/download.svg) ](https://bintray.com/rahulchowdhury/maven/mystique/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/rahulchowdhury/maven/mystique/images/download.svg) ](https://bintray.com/rahulchowdhury/maven/mystique/_latestVersion) [![Kotlin](https://img.shields.io/badge/Kotlin-1.1.2-green.svg)](http://kotlinlang.org/) [![API](https://img.shields.io/badge/API-19%2B-red.svg?style=flat)](https://android-arsenal.com/api?level=19) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 <img src="https://github.com/rahulchowdhury/Mystique/blob/master/docs/Mystique.png" width="300px" />
 
-Mystique is a [Kotlin](http://kotlinlang.org/) library for Android’s `RecyclerView` which allows you to create homogeneous and heterogeneous lists effortlessly using an universal adapter. It’s `RecyclerView.Adapter` on steroids, written purely in Kotlin (_or yeah, with extension functions too_).
+Mystique is a [Kotlin](http://kotlinlang.org/) library for Android’s `RecyclerView` which allows you to create homogeneous and heterogeneous lists effortlessly using an universal adapter. It’s `RecyclerView.Adapter` on steroids, written purely in Kotlin (_oh yeah, with extension functions too_).
 
 # Download
 You can download this library through **jCenter** by one of the following ways,
