@@ -9,7 +9,8 @@ You can download this library through **jCenter** by one of the following ways,
 
 ## Gradle
 Add this line to your `build.gradle` file under the `dependencies` section along with any other library that you might use.
-```
+
+```groovy
 dependencies {
 	compile 'co.upcurve.mystique:mystique:1.0'
 }
@@ -17,7 +18,8 @@ dependencies {
 
 ## Maven
 If you prefer to use Maven, then add the following lines,
-```
+
+```xml
 <dependency>
   <groupId>co.upcurve.mystique</groupId>
   <artifactId>mystique</artifactId>
@@ -35,7 +37,8 @@ The model class is a regular data class which holds all the data that needs to b
 You need to annotate the presenter that will be used with this model class for Mystique to correctly recognize the presenter for this model class and bind both of them without any effort from your side.
 
 ### NewsModel.kt
-```
+
+```kotlin
 //Specify your presenter here in this format
 @Presenter(NewsItem::class)
 data class NewsModel(var heading: String = "", 
@@ -53,7 +56,8 @@ The presenter or the item class is the place where you specify which layout shou
 Consider the following example class,
 
 ### NewsItem.kt
-```
+
+```kotlin
 class NewsItem : MystiqueItemPresenter() {
 
     //Declare your NewsModel object
@@ -121,7 +125,7 @@ The next step is to load your models to the universal adapter, which is a breeze
 
 Once you have your data initialized in their appropriate model classes, declare a reference to your adapter and load the data in this fashion,
 
-```
+```kotlin
 /**
   * Initialize your adapter
   */
@@ -144,22 +148,36 @@ Mystique also defines other functions such as,
 `fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItem(item: T?, index: Int = mystiqueItems.size)`
 
 ### Remove an item
-Using an index,
 
-`fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(index: Int = mystiqueItems.size - 1)`
+#### Using an index,
 
-Using a model,
+```kotlin
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(index: Int = mystiqueItems.size - 1)
+```
 
-`fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(model: Any)`
+#### Using a model,
+
+```kotlin
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(model: Any)
+```
 
 ### Add a list of items
-`fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItems(items: List<T>, startPosition: Int = mystiqueItems.size)`
+
+```kotlin
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItems(items: List<T>, startPosition: Int = mystiqueItems.size)
+```
 
 ### Remove a list of items
-`fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<Any>)`
+
+```kotlin
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<Any>)
+```
 
 ### Convert any object to a Mystified object
-`object.toMystifiedItem()`
+
+```kotlin
+object.toMystifiedItem()
+```
 
 # Sample app
 Refer to this section in this repo for a sample app using the library,
