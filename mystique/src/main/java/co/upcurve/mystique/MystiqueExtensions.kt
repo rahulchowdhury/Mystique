@@ -37,12 +37,17 @@ fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
  * An extension function to [MystiqueAdapter] to add a list of items
  * to the adapter and notifying the adapter of the same
  *
+ * An optional starting position from where the items will be inserted
+ * can be specified. Otherwise, the new items will be added to the end
+ * of the list
+ *
  * @param items A list of [T] items to be added
+ * @param startPosition The starting position from where the items will be added
  */
-fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItems(items: List<T>) {
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItems(items: List<T>, startPosition: Int = mystiqueItems.size) {
     items.isNotEmpty().let {
         mystiqueItems.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(startPosition, items.size)
     }
 }
 
@@ -55,23 +60,8 @@ fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItems(items: List<T>) {
 fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<Any>) {
     items.isNotEmpty().let {
         items.forEach {
-            val itemModel = it
-            var itemToRemove: MystiqueItemPresenter? = null
-
-            mystiqueItems.forEach innerLoop@ {
-                val mystiqueItemModel = it.getModel()
-
-                if (mystiqueItemModel != null && itemModel == mystiqueItemModel) {
-                    itemToRemove = it
-                    return@innerLoop
-                }
-            }
-
-            itemToRemove?.let {
-                mystiqueItems.remove(it)
-            }
+            removeItem(it)
         }
-        notifyDataSetChanged()
     }
 }
 
@@ -83,9 +73,11 @@ fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItems(items: List<Any>)
  * @param item A [T] item to be added
  * @param index Position where the item is to be added (if required)
  */
-fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItem(item: T, index: Int = mystiqueItems.size) {
-    mystiqueItems.add(index, item)
-    notifyItemInserted(index)
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItem(item: T?, index: Int = mystiqueItems.size) {
+    item?.let {
+        mystiqueItems.add(index, item)
+        notifyItemInserted(index)
+    }
 }
 
 /**
@@ -98,6 +90,30 @@ fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItem(item: T, index: Int =
 fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(index: Int = mystiqueItems.size - 1) {
     mystiqueItems.removeAt(index)
     notifyItemRemoved(index)
+}
+
+/**
+ * An extension function to [MystiqueAdapter] to remove a single item from
+ * the adapter and notify the adapter of the same
+ *
+ * @param model The item model to remove from the adapter list
+ */
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(model: Any) {
+    var itemToRemove: MystiqueItemPresenter? = null
+
+    mystiqueItems.forEach {
+        val mystiqueItemModel = it.getModel()
+
+        if (mystiqueItemModel != null && model == mystiqueItemModel) {
+            itemToRemove = it
+        }
+    }
+
+    itemToRemove?.let {
+        val indexRemoved = mystiqueItems.indexOf(it)
+        mystiqueItems.remove(it)
+        notifyItemRemoved(indexRemoved)
+    }
 }
 
 /**

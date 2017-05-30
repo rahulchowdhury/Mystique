@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import co.upcurve.mystique.MystiqueAdapter
 import co.upcurve.mystique.MystiqueItemPresenter
-import co.upcurve.mystique.removeItems
+import co.upcurve.mystique.addItems
 import co.upcurve.mystique.toMystifiedList
 import co.upcurve.mystiquesample.items.PostItem
 import co.upcurve.mystiquesample.models.BannerModel
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), PostItem.OnItemClickListener {
         recyclerView.adapter = mystiqueAdapter
 
         Handler().postDelayed({
-            mystiqueAdapter.removeItems(newList)
+            mystiqueAdapter.addItems(newList.toMystifiedList(this), 2)
         }, 3000)
     }
 }
