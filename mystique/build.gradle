@@ -27,6 +27,8 @@ ext {
     supportLibVersion = "25.3.1"
 }
 
+tasks.withType(Javadoc).all { enabled = false }
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -63,3 +65,6 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
