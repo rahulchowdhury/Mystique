@@ -145,7 +145,10 @@ Voila! That’s all. Did you expect more?
 Mystique also defines other functions such as,
 
 ### Add an item
-`fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItem(item: T?, index: Int = mystiqueItems.size)`
+
+```kotlin
+fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.addItem(item: T?, index: Int = mystiqueItems.size)
+```
 
 ### Remove an item
 
