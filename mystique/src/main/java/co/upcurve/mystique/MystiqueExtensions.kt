@@ -101,6 +101,37 @@ fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(index: Int = mysti
 }
 
 /**
+ * This function is the core of mystifying a model. It takes in a
+ * regular model and magically turns it into a [MystiqueItemPresenter]
+ *
+ * Cutting the crap talk and getting technical, this function takes a
+ * regular model of [Any] type, reads the [Presenter] annotation from
+ * its class definition and wraps this model into the appropriate
+ * presenter which is then returned to the caller
+ *
+ * This function also takes in an optional listener parameter to attach
+ * it to the supplied model. The listener can be anything which
+ * listens to the click events on the presenter, for example, an activity
+ * or fragment or view.
+ *
+ * Use this function when you need to convert a single model into a
+ * [MystiqueItemPresenter]
+ *
+ * @param model A model of [Any] type to be converted
+ * @param listener An optional listener to attach to the model
+ * @return A [MystiqueItemPresenter] initialized with the params
+ */
+fun mystify(model: Any, listener: Any? = null): MystiqueItemPresenter? {
+    val mystiqueItemPresenter = getPresenterClassName(model::class)?.java?.newInstance() as? MystiqueItemPresenter
+    mystiqueItemPresenter?.let {
+        mystiqueItemPresenter.loadModel(model)
+        mystiqueItemPresenter.setListener(listener)
+        return it
+    }
+    return null
+}
+
+/**
  * This is where all the mystic magic happens. When used properly, can save
  * lots of effort and time, so use it whenever you are initializing a [MystiqueAdapter]
  * with a list of data models, so that each model gets mapped to their respective
@@ -120,20 +151,31 @@ fun <T : MystiqueItemPresenter> MystiqueAdapter<T>.removeItem(index: Int = mysti
  * @param listener An optional listener to attach to each model
  * @return A mutable list of [MystiqueItemPresenter] to be consumed by a [MystiqueAdapter]
  */
-fun mystify(models: List<Any>, listener: Any? = null): MutableList<MystiqueItemPresenter> {
+fun mystifyList(models: List<Any>, listener: Any? = null): MutableList<MystiqueItemPresenter> {
     val mystiqueItemPresenterList = mutableListOf<MystiqueItemPresenter>()
 
     models.forEach {
-        val mystiqueItemPresenter = getPresenterClassName(it::class)?.java?.newInstance() as? MystiqueItemPresenter
-        if (mystiqueItemPresenter != null) {
-            mystiqueItemPresenter.loadModel(it)
-            mystiqueItemPresenter.setListener(listener)
+        val mystiqueItemPresenter = mystify(it, listener)
+        mystiqueItemPresenter?.let {
             mystiqueItemPresenterList.add(mystiqueItemPresenter)
         }
     }
 
     return mystiqueItemPresenterList
 }
+
+/**
+ * An extension function on platform API of [Any] to add the feature of
+ * converting a regular [Any] object to a mystified item, which is nothing
+ * but a [MystiqueItemPresenter]
+ *
+ * Use this function when converting a regular model to a mystified item
+ * for use with the [MystiqueAdapter] functions
+ *
+ * @param listener The listener (if any) to add to the item presenter
+ * @return A [MystiqueItemPresenter] object initialized with supplied params
+ */
+fun Any.toMystifiedItem(listener: Any? = null) = mystify(this, listener)
 
 /**
  * An extension function on platform API of [List] to add the feature of
@@ -146,6 +188,4 @@ fun mystify(models: List<Any>, listener: Any? = null): MutableList<MystiqueItemP
  * @param listener The listener (if any) to add to each item presenter in the list
  * @return A mutable list of [MystiqueItemPresenter] objects
  */
-fun List<Any>.toMystifiedList(listener: Any? = null): MutableList<MystiqueItemPresenter> {
-    return mystify(this, listener)
-}
+fun List<Any>.toMystifiedList(listener: Any? = null) = mystifyList(this, listener)
